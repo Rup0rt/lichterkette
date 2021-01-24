@@ -138,7 +138,7 @@ void rainbow(int iterations = 3, int wait_ms = 20) {
 }
 
 // knight rider animation
-void knightRider(int iterations = 5, int wait_ms = 50) {
+void knightRider(int iterations = 10, int wait_ms = 50) {
   colorAll(CRGB::Black);
 
   while (iterations) {
@@ -165,7 +165,7 @@ void knightRider(int iterations = 5, int wait_ms = 50) {
 }
 
 // dips on the stripe
-void dip(int iterations = 10, int wait_ms = 50) {
+void dip(int iterations = 40, int wait_ms = 50) {
   colorAll(CRGB::Black);
 
   while (iterations) {
@@ -215,7 +215,7 @@ void randomStay(int iterations = 10, int wait_ms = 200) {
 }
 
 // simulates fireflys
-void fireflys(int iterations = 200, int wait_ms = 100, int fly_count = 5) {
+void fireflys(int iterations = 600, int wait_ms = 100, int fly_count = 5) {
   colorAll(CRGB::Black);
 
   int flys[fly_count];
@@ -362,7 +362,7 @@ void pixelToMid(int iterations = 5) {
 }
 
 // real snow
-void realSnow(int wait_ms = 50, int iterations = 3) {
+void realSnow(int wait_ms = 100, int iterations = 3) {
   colorAll(CRGB::Black);
 
   // let leds randomly glow
@@ -423,6 +423,24 @@ void snowFlakeFill(int wait_ms = 1) {
       FastLED.show();
       delay(wait_ms);
     }
+  }
+}
+
+// simulate static christmas lights
+void staticLights(int iterations = 10, int wait_ms = 10000) {
+  colorAll(CRGB::Black);
+
+  CRGB warmWhite;
+  warmWhite.setRGB(255, 127, 25);
+
+  int x = 0;
+  for (int i = 0; i < NUM_LEDS; i+=2) {
+    leds[i] = warmWhite;
+  }
+  FastLED.show();
+  while (iterations > 0) {
+    delay(wait_ms);
+    iterations--;
   }
 }
 
@@ -535,27 +553,31 @@ void loop() {
 
 /*
   // christmas mode
+  staticLights();
   snake();
-  snowFlakeFill();
   realSnow();
-  pixelToMid();
-  rocket();
-  tvOff();
   fireflys();
-  randomStay();
-  dip();
-  pixelLeftRight();
   knightRider();
+  dip();
+
+  asm volatile ("jmp 0");
+
+  // additional modes (more hectic)
+  rocket();
+  randomStay();
+  snowFlakeFill();
+  pixelToMid();
+  tvOff();
+  pixelLeftRight();
   rainbow();
   fadeInOut();
   strobe();
   randomPixel();
   randomFill();
-  snowFlake();
+  snowFlake();  // arduino crashes sometimes here, maybe delay is too short?
+*/
 
   // test mode
   // sound2light();
 
-*/
 }
-
